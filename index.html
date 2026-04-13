@@ -8,8 +8,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-:root{ --safe-b:env(safe-area-inset-bottom,0px); }
-
+:root{
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+/* Мультяшная обводка текста - работает везде */
+.outlined {
+  color: #fff;
+  -webkit-text-stroke: 5px #000;
+  paint-order: stroke fill;
+  font-weight: 900;
+  font-family: 'Nunito', system-ui, sans-serif;
+  line-height: 1;
+}
 body{
   background:#39393b;
   overflow:hidden;
@@ -19,69 +29,21 @@ body{
 }
 #canvas{display:block;width:100vw;height:100vh;}
 
-/* ── SCREENS ────────────────────────────── */
+/* ── SCREENS ── */
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;}
 .screen.hidden{display:none;}
 
-/* ── CARTOON TEXT — CLEAN STROKE (no gap hack) ── */
-.cartoon-num{
-  font-family:'Nunito',system-ui,sans-serif;
-  font-weight:900;
-  color:#fff;
-  -webkit-text-stroke:5px #000;
-  paint-order:stroke fill;
-  line-height:1;
-}
-
-/* ── ICON HELPER — colored fill + black drop-shadow outline ── */
-/* Usage: wrapper gets the drop-shadow filter; inner div is the colored mask */
-.icon-wrap{
-  position:relative;
-  flex-shrink:0;
-  filter:
-    drop-shadow(3px 0 0 #000) drop-shadow(-3px 0 0 #000)
-    drop-shadow(0 3px 0 #000) drop-shadow(0 -3px 0 #000)
-    drop-shadow(2px 2px 0 #000) drop-shadow(-2px 2px 0 #000)
-    drop-shadow(2px -2px 0 #000) drop-shadow(-2px -2px 0 #000);
-}
-.icon-mask{
-  display:block;
-  width:100%;height:100%;
-  -webkit-mask-size:contain;
-  -webkit-mask-position:center;
-  -webkit-mask-repeat:no-repeat;
-  mask-size:contain;
-  mask-position:center;
-  mask-repeat:no-repeat;
-}
-
-/* ── LOADING ────────────────────────────── */
+/* ── LOADING ── */
 #loading-screen{background:linear-gradient(180deg,#a8e6ff 0%,#d4f5ff 100%);}
-#loading-screen .loader-title{
-  font-size:1.7rem;font-weight:900;color:#fff;
-  -webkit-text-stroke:3px #000;paint-order:stroke fill;
-  margin-bottom:1.4rem;
-}
-.progress-bar{
-  width:min(260px,70vw);height:10px;
-  background:rgba(255,255,255,.4);border-radius:20px;overflow:hidden;
-  border:2.5px solid #000;box-shadow:0 2px 0 #000;
-}
+#loading-screen .loader-title{font-size:1.6rem;font-weight:900;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;margin-bottom:1.4rem;}
+.progress-bar{width:min(260px,70vw);height:10px;background:rgba(255,255,255,.4);border-radius:20px;overflow:hidden;border:2px solid #fff;}
 .progress-fill{height:100%;background:#f5a623;border-radius:20px;transition:width .3s;}
-.progress-label{font-size:.75rem;color:rgba(255,255,255,.85);margin-top:8px;font-weight:800;}
+.progress-label{font-size:.75rem;color:rgba(255,255,255,.8);margin-top:7px;font-weight:700;}
 
-/* ── MAIN MENU ────────────────────────── */
+/* ── MAIN MENU ── */
 #main-menu{background:linear-gradient(180deg,#a8e6ff 0%,#c5f0ff 100%);}
-#main-menu .logo{
-  font-size:clamp(2.4rem,10vw,3.6rem);font-weight:900;
-  color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;
-  margin-bottom:.3rem;letter-spacing:-.01em;
-}
-#main-menu .subtitle{
-  font-size:.85rem;color:rgba(255,255,255,.9);font-weight:800;
-  letter-spacing:.14em;text-transform:uppercase;margin-bottom:2.5rem;
-  -webkit-text-stroke:1px #000;paint-order:stroke fill;
-}
+#main-menu .logo{font-size:clamp(2.4rem,10vw,3.6rem);font-weight:900;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;margin-bottom:.3rem;letter-spacing:-.01em;}
+#main-menu .subtitle{font-size:.85rem;color:rgba(255,255,255,.85);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2.5rem;}
 .menu-btn{
   display:flex;align-items:center;justify-content:center;gap:10px;
   width:min(240px,72vw);padding:.9rem 1.6rem;margin:.35rem 0;
@@ -91,156 +53,115 @@ body{
   transition:transform .1s,box-shadow .1s;
 }
 .menu-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #000;}
-.menu-btn.primary{
-  background:#f5a623;color:#fff;
-  -webkit-text-stroke:1.5px #000;paint-order:stroke fill;
-}
+.menu-btn.primary{background:#f5a623;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;}
 .menu-btn .ico{flex-shrink:0;}
 
-/* ── HUD ────────────────────────────────── */
+/* ── CARTOON NUMBER (жирный с обводкой) ── */
+.cartoon-num{
+  font-family:'Nunito',system-ui,sans-serif;
+  font-weight:900;
+  color:#fff;
+  -webkit-text-stroke: 5px #000;
+  paint-order: stroke fill;
+  line-height:1;
+  position:relative;
+}
+
+/* ─── HUD ─── */
 #hud{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:50;}
 #hud.hidden{display:none;}
 
-/* ВЕРХ-ЛЕВО */
+/* ВЕРХ-ЛЕВО: сердце большое + число, молния + число */
 #hud-tl{
-  position:absolute;top:14px;left:12px;
-  display:flex;flex-direction:column;gap:4px;
+  position:absolute;top:12px;left:10px;
+  display:flex;flex-direction:column;gap:2px;
   pointer-events:none;
 }
-#hud-row1{display:flex;align-items:center;gap:6px;}
-#hud-row2{display:flex;align-items:center;gap:6px;margin-top:2px;}
-
-/* Heart icon — 68px, red */
+/* Ряд 1: сердце + "20" + [синий круг] + "0/20" */
+#hud-row1{display:flex;align-items:center;gap:4px;}
 #hud-heart{
-  width:68px;height:68px;
-  filter:
-    drop-shadow(3px 0 0 #000) drop-shadow(-3px 0 0 #000)
-    drop-shadow(0 3px 0 #000) drop-shadow(0 -3px 0 #000)
-    drop-shadow(2px 2px 0 #000) drop-shadow(-2px -2px 0 #000)
-    drop-shadow(2px -2px 0 #000) drop-shadow(-2px 2px 0 #000);
+  width:72px;height:72px;
+  background:url(assets/icons/ic_love.png) center/contain no-repeat;
+  /* Пастельный красный, чуть насыщеннее — hue-rotate(320deg) даёт тёплый коралловый */
+  filter: sepia(1) saturate(8) hue-rotate(315deg) brightness(0.95);
 }
-#hud-heart .icon-mask{
-  background:#ff4444;
-  -webkit-mask-image:url(assets/icons/ic_love_fill.png);
-  mask-image:url(assets/icons/ic_love_fill.png);
-}
-
-/* Lives number */
-#hud-lives{font-size:3.6rem;}
-
-/* Wave badge — blue circle */
+#hud-lives{font-size:3.6rem;display:block;}
 #hud-wave-badge{
-  width:56px;height:56px;
-  background:#2979ff;border-radius:50%;
-  border:3px solid #000;box-shadow:0 3px 0 #000;
+  width:32px;height:32px;
+  background:#2979ff;
+  border-radius:50%;border:2.5px solid #000;
+  box-shadow:0 2px 0 #000;
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;margin-left:4px;
+  margin-left:6px;flex-shrink:0;
 }
-#hud-wave-badge .badge-icon{
-  width:28px;height:28px;
-  background:#fff;
-  -webkit-mask-image:url(assets/icons/ic_star_fill.png);
-  mask-image:url(assets/icons/ic_star_fill.png);
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-}
+#hud-wave-badge img{width:16px;height:16px; filter: brightness(3) contrast(1.5); }
+#hud-gold{font-size:1rem;margin-left:4px;display:block;}
 
-/* Wave/gold number */
-#hud-gold{font-size:1.85rem;}
-
-/* Lightning bolt icon — 46px, yellow */
+/* Ряд 2: молния + золото/ресурс */
+#hud-row2{display:flex;align-items:center;gap:4px;margin-top:2px;}
 #hud-bolt{
-  width:46px;height:46px;
-  filter:
-    drop-shadow(2.5px 0 0 #000) drop-shadow(-2.5px 0 0 #000)
-    drop-shadow(0 2.5px 0 #000) drop-shadow(0 -2.5px 0 #000)
-    drop-shadow(2px 2px 0 #000) drop-shadow(-2px -2px 0 #000)
-    drop-shadow(2px -2px 0 #000) drop-shadow(-2px 2px 0 #000);
+  width:50px;height:50px;
+  background:url(assets/icons/ic_energy.png) center/contain no-repeat;
+  /* Насыщенный жёлтый — saturate(12) даёт чистый яркий жёлтый */
+  filter: sepia(1) saturate(12) hue-rotate(8deg) brightness(1.1);
 }
-#hud-bolt .icon-mask{
-  background:#ffd52b;
-  -webkit-mask-image:url(assets/icons/ic_energy_fill.png);
-  mask-image:url(assets/icons/ic_energy_fill.png);
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-}
-#hud-wave-text{font-size:2.8rem;}
+#hud-wave-text{font-size:2.8rem;display:block;}
 
-/* ВЕРХ-ПРАВО */
+/* ВЕРХ-ПРАВО: X кнопка + зелёная кнопка */
 #hud-tr{
-  position:absolute;top:14px;right:12px;
+  position:absolute;top:12px;right:12px;
   display:flex;flex-direction:column;align-items:center;gap:10px;
   pointer-events:auto;
 }
 .circ-btn{
-  width:60px;height:60px;border-radius:50%;
-  border:3px solid #000;
+  width:60px;height:60px;
+  border-radius:50%;
+  border:4px solid #000;
+  outline:3px solid #fff;
+  outline-offset:-7px;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.55);
+  cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.5);
   transition:transform .1s,box-shadow .1s;flex-shrink:0;
 }
-.circ-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.55);}
-/* Exit button — white circle, black X */
+.circ-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.5);}
+.circ-btn img{width:30px;height:30px;}
 #btn-exit{background:#fff;}
-#btn-exit .circ-icon{
-  width:28px;height:28px;background:#222;
-  -webkit-mask-image:url(assets/icons/ic_close_fill.png);
-  mask-image:url(assets/icons/ic_close_fill.png);
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-}
-/* Start wave button — green circle */
+/* Красный крестик — насыщенный, с чёрным border из ассета */
+#btn-exit img{ filter: sepia(1) saturate(15) hue-rotate(315deg) brightness(0.9); }
 #btn-start-wave{background:#4ac94a;}
-#btn-start-wave .circ-icon{
-  width:28px;height:28px;background:#fff;
-  -webkit-mask-image:url(assets/icons/ic_target_fill.png);
-  mask-image:url(assets/icons/ic_target_fill.png);
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-}
+/* Белая иконка с чёрным border на зелёном фоне */
+#btn-start-wave img{ filter: brightness(3) contrast(1.5); }
 
-/* НИЗ-ПРАВО */
+/* НИЗ-ПРАВО: cam btn + speed btn */
 #hud-br{
   position:absolute;
-  bottom:calc(var(--panel-h,215px) + 14px);
+  bottom:calc(var(--panel-h,220px) + 14px);
   right:12px;
   display:flex;flex-direction:column;align-items:center;gap:10px;
   pointer-events:auto;
 }
 #cam-mode-btn{
-  width:60px;height:60px;background:#fff;
+  width:58px;height:58px;background:#fff;
   border-radius:50%;border:3px solid #000;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.55);
+  cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.5);
   transition:transform .1s,box-shadow .1s;
 }
-#cam-mode-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.55);}
-#cam-mode-btn .circ-icon{
-  width:28px;height:28px;background:#222;
-  -webkit-mask-image:url(assets/icons/ic_cursor_fill.png);
-  mask-image:url(assets/icons/ic_cursor_fill.png);
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-}
+#cam-mode-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.5);}
+#cam-mode-btn img{width:30px;height:30px; filter: brightness(0.3) contrast(2); }
 #cam-mode-btn.hidden{display:none;}
 #btn-speed{
-  width:60px;height:60px;
+  width:58px;height:58px;
   background:#f5a623;border-radius:50%;border:3px solid #000;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.55);
+  cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.5);
   transition:transform .1s,box-shadow .1s;
-  font-family:'Nunito',sans-serif;font-weight:900;font-size:1.15rem;
-  color:#fff;
-  -webkit-text-stroke:2px #000;paint-order:stroke fill;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:1.1rem;
+  color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;
 }
-#btn-speed:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.55);}
+#btn-speed:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.5);}
 
-/* ── BOTTOM PANEL ─────────────────────── */
+/* ── BOTTOM PANEL ── */
 #bottom-panel{
   position:fixed;bottom:0;left:0;right:0;
   background:#fff5e0;
@@ -251,47 +172,36 @@ body{
 }
 #bottom-panel.hidden{display:none;}
 
+/* Табы: SHOP + TOWERS + ANIMAL в одну строку */
 .tab-bar{
   display:flex;align-items:center;gap:8px;
   padding:10px 12px 8px;
 }
 .tab-shop,.tab-btn{
   display:flex;align-items:center;justify-content:center;gap:6px;
-  padding:9px 16px;border-radius:22px;border:3px solid #000;
+  padding:9px 16px;
+  border-radius:22px;border:3px solid #000;
   font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:900;
   cursor:pointer;box-shadow:0 3px 0 #000;
-  transition:transform .1s,box-shadow .1s;white-space:nowrap;
+  transition:transform .1s,box-shadow .1s;
+  white-space:nowrap;
 }
 .tab-shop:active,.tab-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #000;}
-/* Shop tab — active/amber */
-.tab-shop{
-  background:#f5a623;color:#fff;
-  -webkit-text-stroke:1.5px #000;paint-order:stroke fill;
-}
-/* Shop icon inside tab */
-.tab-shop .tab-ico{
-  width:22px;height:22px;background:#fff;
-  -webkit-mask-image:url(assets/icons/ic_store_fill.png);
-  mask-image:url(assets/icons/ic_store_fill.png);
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-  flex-shrink:0;
-}
+.tab-shop{background:#f5a623;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;}
+/* ic_store.png: white fill + black border on orange — brighten grey to white, keep black outline */
+.tab-shop img{width:22px;height:22px;filter:brightness(3) contrast(1.5);}
+.tab-btn img{width:20px;height:20px;filter:none;}
 .tab-btn{background:#fff5e0;color:#333;}
-.tab-btn.active{
-  background:#f5a623;color:#fff;
-  -webkit-text-stroke:1.5px #000;paint-order:stroke fill;
-}
+.tab-btn.active{background:#f5a623;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;}
 .tab-spacer{flex:1;}
 
 .tab-content{display:none;padding:4px 10px 10px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;}
 .tab-content.active{display:block;}
 
-/* Item cards */
+/* карточки юнитов */
 .item-card{
   display:inline-flex;flex-direction:column;align-items:center;
-  width:72px;margin-right:8px;padding:8px 4px 6px;
+  width:80px;margin-right:8px;padding:6px 4px 6px;
   background:#fff;border:3px solid #000;border-radius:18px;
   cursor:pointer;vertical-align:top;
   box-shadow:0 3px 0 #000;transition:transform .1s,box-shadow .1s;
@@ -299,17 +209,12 @@ body{
 .item-card:active{transform:translateY(2px);box-shadow:0 1px 0 #000;}
 .item-card.selected{background:#fff3d0;border-color:#f5a623;}
 .item-card.disabled{opacity:.38;pointer-events:none;}
-.item-icon-wrap{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:3px;}
-.item-icon-wrap img{width:36px;height:36px;object-fit:contain;}
+.item-icon-wrap{width:52px;height:52px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;}
+.item-icon-wrap img{width:52px;height:52px;object-fit:contain;}
 .item-name{font-size:.58rem;font-weight:900;text-align:center;color:#222;white-space:normal;line-height:1.2;}
-/* Cost with proper stroke */
-.item-cost{
-  font-size:.65rem;font-weight:900;color:#f5a623;
-  -webkit-text-stroke:1px #000;paint-order:stroke fill;
-  margin-top:1px;
-}
+.item-cost{font-size:.65rem;font-weight:900;color:#f5a623;-webkit-text-stroke:3px #000;paint-order:stroke fill;margin-top:1px;}
 
-/* ── TOWER INFO ───────────────────────── */
+/* ── TOWER INFO ── */
 #tower-info{
   position:fixed;bottom:0;left:0;right:0;
   background:#fff5e0;border-radius:28px 28px 0 0;
@@ -320,7 +225,10 @@ body{
 }
 #tower-info.visible{transform:translateY(0);}
 #tower-info.hidden{transform:translateY(100%);}
-#tower-info h3{font-size:1.1rem;font-weight:900;color:#222;text-align:center;margin-bottom:10px;}
+#tower-info h3{
+  font-size:1.1rem;font-weight:900;color:#222;
+  text-align:center;margin-bottom:10px;
+}
 .ti-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
 .ti-stat{
   display:flex;justify-content:space-between;align-items:center;
@@ -337,52 +245,37 @@ body{
 }
 .ti-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #000;}
 .ti-btn img{width:18px;height:18px;}
-.ti-upgrade{
-  background:#4ac94a;color:#fff;
-  -webkit-text-stroke:1px #000;paint-order:stroke fill;
-}
-.ti-sell{
-  background:#f5a623;color:#fff;
-  -webkit-text-stroke:1px #000;paint-order:stroke fill;
-}
+.ti-upgrade img,.ti-sell img{filter:brightness(0) invert(1);}
+.ti-upgrade{background:#4ac94a;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;}
+.ti-sell{background:#f5a623;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;}
 .ti-close{background:#fff;color:#333;}
+.ti-close img{filter:none;}
 
-/* ── WAVE NOTIFY ──────────────────────── */
+/* ── WAVE NOTIFY ── */
 #wave-notify{position:fixed;top:35%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:200;pointer-events:none;transition:opacity .5s;}
 #wave-notify.hidden{opacity:0;}
-#wave-notify .wn-title{
-  font-size:clamp(2rem,9vw,3.5rem);font-weight:900;color:#fff;
-  -webkit-text-stroke:4px #000;paint-order:stroke fill;
-}
-#wave-notify .wn-sub{font-size:.9rem;color:rgba(255,255,255,.9);font-weight:800;margin-top:4px;}
+#wave-notify .wn-title{font-size:clamp(2rem,9vw,3.5rem);font-weight:900;color:#fff;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;}
+#wave-notify .wn-sub{font-size:.9rem;color:rgba(255,255,255,.85);font-weight:700;margin-top:4px;}
 
-/* ── GAME OVER / WIN ──────────────────── */
+/* ── GAME OVER / WIN ── */
 #game-over-screen{background:rgba(0,0,0,.7);backdrop-filter:blur(8px);}
-#game-over-screen h1{
-  font-size:clamp(2.5rem,10vw,4rem);font-weight:900;color:#ff6b6b;
-  -webkit-text-stroke:4px #000;paint-order:stroke fill;
-  margin-bottom:.8rem;
-}
+#game-over-screen h1{font-size:clamp(2.5rem,10vw,4rem);font-weight:900;color:#ff6b6b;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;margin-bottom:.8rem;}
 #win-screen{background:rgba(0,0,0,.7);backdrop-filter:blur(8px);}
-#win-screen h1{
-  font-size:clamp(2.5rem,10vw,4rem);font-weight:900;color:#4ac94a;
-  -webkit-text-stroke:4px #000;paint-order:stroke fill;
-  margin-bottom:.8rem;
-}
-.result-info{color:rgba(255,255,255,.9);font-size:.95rem;font-weight:800;margin-bottom:1.5rem;}
+#win-screen h1{font-size:clamp(2.5rem,10vw,4rem);font-weight:900;color:#4ac94a;-webkit-text-stroke:4px #000;paint-order:stroke fill;text-shadow:none;margin-bottom:.8rem;}
+.result-info{color:rgba(255,255,255,.85);font-size:.95rem;font-weight:700;margin-bottom:1.5rem;}
 
-/* ── TOOLTIP ──────────────────────────── */
+/* ── TOOLTIP ── */
 #tooltip{position:fixed;background:#fff;border:3px solid #000;border-radius:14px;padding:8px 12px;font-size:.75rem;z-index:300;pointer-events:none;max-width:180px;box-shadow:0 3px 0 #000;}
 #tooltip.hidden{display:none;}
 #tooltip h4{color:#222;margin-bottom:3px;font-weight:900;}
-#tooltip p{color:#555;line-height:1.35;font-weight:700;}
+#tooltip p{color:#666;line-height:1.35;font-weight:700;}
 
-/* ── EDITOR ───────────────────────────── */
+/* ── EDITOR ── */
 #editor-screen{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;background:transparent;pointer-events:none;}
 #editor-screen.hidden{display:none;}
 #ed-topbar{
   display:flex;align-items:center;gap:5px;padding:7px 9px;
-  background:rgba(255,245,224,.96);border-bottom:3px solid #000;
+  background:rgba(255,245,224,.95);border-bottom:3px solid #000;
   flex-shrink:0;pointer-events:auto;overflow-x:auto;-webkit-overflow-scrolling:touch;
 }
 #ed-topbar::-webkit-scrollbar{display:none;}
@@ -396,28 +289,21 @@ body{
   box-shadow:0 2px 0 #000;transition:transform .1s,box-shadow .1s;
 }
 .ed-btn:active{transform:translateY(2px);box-shadow:none;}
-.ed-btn img{width:16px;height:16px;}
-.ed-btn .btn-ico{
-  width:16px;height:16px;background:#222;
-  -webkit-mask-size:contain;mask-size:contain;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-  flex-shrink:0;
-}
+.ed-btn img{width:16px;height:16px;filter:brightness(0);}
 .ed-btn.gold{background:#f5a623;color:#fff;}
-.ed-btn.gold .btn-ico{background:#fff;}
+.ed-btn.gold img{filter:brightness(0) invert(1);}
 .ed-btn.green{background:#4ac94a;color:#fff;}
-.ed-btn.green .btn-ico{background:#fff;}
+.ed-btn.green img{filter:brightness(0) invert(1);}
 .ed-btn.red{background:#ff6b6b;color:#fff;}
-.ed-btn.red .btn-ico{background:#fff;}
-.ed-btn.active-on{background:#7c9eff;color:#fff;}
-.ed-btn.active-on .btn-ico{background:#fff;}
-.ed-btn.erase-on{background:#ff6b6b;color:#fff;}
-.ed-btn.erase-on .btn-ico{background:#fff;}
+.ed-btn.red img{filter:brightness(0) invert(1);}
+.ed-btn.active-on{background:#7c9eff;color:#fff;border-color:#000;}
+.ed-btn.active-on img{filter:brightness(0) invert(1);}
+.ed-btn.erase-on{background:#ff6b6b;color:#fff;border-color:#000;}
+.ed-btn.erase-on img{filter:brightness(0) invert(1);}
 .ed-spacer{flex:1;min-width:3px;}
 #ed-body{display:flex;flex:1;overflow:hidden;}
 #ed-palette{
-  width:70px;background:rgba(255,245,224,.93);border-right:3px solid #000;
+  width:70px;background:rgba(255,245,224,.92);border-right:3px solid #000;
   overflow-y:auto;flex-shrink:0;padding:4px 3px;
   pointer-events:auto;-webkit-overflow-scrolling:touch;
 }
@@ -428,23 +314,23 @@ body{
   padding:5px 2px;margin-bottom:3px;
   background:#fff;border:2px solid #ddd;border-radius:12px;
   cursor:pointer;pointer-events:auto;text-align:center;
-  box-shadow:0 2px 0 #ccc;transition:all .1s;
+  transition:all .1s;box-shadow:0 2px 0 #ccc;
 }
 .ed-tile-btn:active{transform:translateY(1px);box-shadow:none;}
 .ed-tile-btn.active{border-color:#f5a623;background:#fff3d0;box-shadow:0 2px 0 #f5a623;}
 .ed-tile-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
-.ed-tile-icon img{width:22px;height:22px;filter:brightness(0) opacity(.6);}
+.ed-tile-icon img{width:22px;height:22px;filter:none;opacity:.7;}
 .ed-tile-label{font-size:.45rem;color:#888;margin-top:2px;line-height:1.2;font-weight:700;}
 #ed-canvas-area{flex:1;position:relative;}
 #ed-info{
   position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
-  background:rgba(255,245,224,.92);color:#444;
-  font-size:.7rem;font-weight:800;
+  background:rgba(255,245,224,.9);color:#555;
+  font-size:.7rem;font-weight:700;
   padding:5px 14px;border-radius:22px;pointer-events:none;z-index:10;
   white-space:nowrap;border:2px solid #000;box-shadow:0 2px 0 #000;
 }
 
-/* ── MAPS MODAL ───────────────────────── */
+/* ── MAPS MODAL ── */
 #my-maps-modal{background:rgba(0,0,0,.5);backdrop-filter:blur(8px);}
 .maps-modal-inner{
   background:#fff5e0;border-radius:24px;border:3px solid #000;
@@ -469,45 +355,53 @@ body{
   <div class="logo">Tower Defense</div>
   <div class="subtitle">3D Strategy</div>
   <button class="menu-btn primary" id="btn-play">
-    ▶ Play
+    <img class="ico" src="assets/icons/ic_target.png" style="width:22px;height:22px;filter:brightness(0) invert(1)">
+    Play
   </button>
   <button class="menu-btn" id="btn-maps">
-    🗺 My Maps
+    <img class="ico" src="assets/icons/ic_map.png" style="width:22px;height:22px;filter:brightness(0)">
+    My Maps
   </button>
   <button class="menu-btn" id="btn-editor">
-    🛠 Map Editor
+    <img class="ico" src="assets/icons/ic_settings.png" style="width:22px;height:22px;filter:brightness(0)">
+    Map Editor
   </button>
 </div>
 
 <!-- HUD (поверх canvas, абсолютные позиции) -->
 <div id="hud" class="hidden">
 
-  <!-- ВЕРХ-ЛЕВО -->
+  <!-- ВЕРХ-ЛЕВО: сердце + жизни + значок волны + голд + строка молния -->
   <div id="hud-tl">
     <div id="hud-row1">
-      <!-- Сердце: wrapper с drop-shadow outline, inner — CSS mask красного цвета -->
-      <div id="hud-heart"><div class="icon-mask"></div></div>
+      <div id="hud-heart"></div>
       <span class="cartoon-num" id="hud-lives">20</span>
-      <!-- Синий значок волны -->
-      <div id="hud-wave-badge"><div class="badge-icon"></div></div>
+      <div id="hud-wave-badge">
+        <img src="assets/icons/ic_star.png" alt="">
+      </div>
       <span class="cartoon-num" id="hud-gold">0/20</span>
     </div>
     <div id="hud-row2">
-      <!-- Молния: wrapper с drop-shadow outline, inner — CSS mask жёлтого цвета -->
-      <div id="hud-bolt"><div class="icon-mask"></div></div>
+      <div id="hud-bolt"></div>
       <span class="cartoon-num" id="hud-wave-text">300</span>
     </div>
   </div>
 
-  <!-- ВЕРХ-ПРАВО -->
+  <!-- ВЕРХ-ПРАВО: X + старт волны -->
   <div id="hud-tr">
-    <button class="circ-btn" id="btn-exit"><div class="circ-icon"></div></button>
-    <button class="circ-btn" id="btn-start-wave"><div class="circ-icon"></div></button>
+    <button class="circ-btn" id="btn-exit">
+      <img src="assets/icons/ic_close.png" alt="">
+    </button>
+    <button class="circ-btn" id="btn-start-wave">
+      <img src="assets/icons/ic_target.png" alt="">
+    </button>
   </div>
 
-  <!-- НИЗ-ПРАВО -->
+  <!-- НИЗ-ПРАВО: режим камеры + скорость -->
   <div id="hud-br">
-    <button id="cam-mode-btn" class="hidden"><div class="circ-icon"></div></button>
+    <button id="cam-mode-btn" class="hidden">
+      <img src="assets/icons/ic_cursor.png" alt="">
+    </button>
     <button id="btn-speed">1x</button>
   </div>
 
@@ -518,7 +412,7 @@ body{
 <div id="bottom-panel" class="hidden">
   <div class="tab-bar">
     <div class="tab-shop" id="tab-shop-btn">
-      <div class="tab-ico"></div>
+      <img src="assets/icons/ic_store.png" alt="">
       SHOP
     </div>
     <div class="tab-btn active" data-tab="towers">TOWERS</div>
@@ -538,9 +432,15 @@ body{
     <div class="ti-stat"><span>Speed</span><span id="ti-speed">0</span></div>
   </div>
   <div class="ti-btns">
-    <button class="ti-btn ti-upgrade" id="btn-upgrade">⬆ Upgrade</button>
-    <button class="ti-btn ti-sell" id="btn-sell">💰 Sell</button>
-    <button class="ti-btn ti-close" id="btn-deselect">✕ Close</button>
+    <button class="ti-btn ti-upgrade" id="btn-upgrade">
+      <img src="assets/icons/ic_plus.png" alt=""> Upgrade
+    </button>
+    <button class="ti-btn ti-sell" id="btn-sell">
+      <img src="assets/icons/ic_star.png" alt="" style="filter:brightness(0) invert(1)"> Sell
+    </button>
+    <button class="ti-btn ti-close" id="btn-deselect">
+      <img src="assets/icons/ic_close.png" alt=""> Close
+    </button>
   </div>
 </div>
 
@@ -555,10 +455,10 @@ body{
   <h1>Game Over</h1>
   <div class="result-info" id="go-info">Wave: 0</div>
   <button class="menu-btn primary" id="btn-go-retry">
-    🔄 Retry
+    <img src="assets/icons/ic_refresh.png" style="width:22px;filter:brightness(0) invert(1)"> Retry
   </button>
   <button class="menu-btn" id="btn-go-menu">
-    🏠 Menu
+    <img src="assets/icons/ic_home.png" style="width:22px;filter:brightness(0)"> Menu
   </button>
 </div>
 
@@ -1140,11 +1040,12 @@ function initThree() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.64;
-  renderer.setClearColor(0x000000, 0);
+  renderer.toneMapping = THREE.LinearToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.setClearColor(0x39393b, 1);
   
   scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x39393b);
 
   // === CHECKERED FLOOR — полностью процедурный, без текстуры ===
   // Цвета точные, repeat работает через шейдер напрямую
@@ -1566,7 +1467,10 @@ function buildEditorPalette() {
     }
     const btn = document.createElement('div');
     btn.className='ed-tile-btn';
-    btn.innerHTML=`<div class="ed-tile-icon"><img src="assets/icons/ic_map.png" style="width:22px;height:22px;object-fit:contain;filter:brightness(0) opacity(.5);"></div><div class="ed-tile-label">${item.label}</div>`;
+    const thumb = getThumb(item.modelKey);
+    btn.innerHTML = thumb
+      ? `<div class="ed-tile-icon"><img src="${thumb}" style="width:32px;height:32px;object-fit:contain;"></div><div class="ed-tile-label">${item.label}</div>`
+      : `<div class="ed-tile-icon"><img src="assets/icons/ic_map.png" style="width:22px;height:22px;filter:none;opacity:.7;"></div><div class="ed-tile-label">${item.label}</div>`;
     btn.addEventListener('click',()=>{
       edSelectedTile={...item,rot:0};
       edSelectedCell=null;
@@ -2611,6 +2515,74 @@ function updateHUD() {
   });
 }
 
+// ============================================================
+// THUMBNAIL RENDERER — рендерит 3D модель в маленький canvas
+// ============================================================
+function renderModelThumb(modelKey, size = 80) {
+  // Offscreen Three.js сцена
+  const tw = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  tw.setSize(size, size);
+  tw.setPixelRatio(2);
+  tw.setClearColor(0x000000, 0);
+  tw.outputEncoding = THREE.sRGBEncoding;
+  tw.toneMapping = THREE.ACESFilmicToneMapping;
+  tw.toneMappingExposure = 0.9;
+
+  const ts = new THREE.Scene();
+
+  // Освещение
+  ts.add(new THREE.AmbientLight(0xffffff, 0.8));
+  const dl = new THREE.DirectionalLight(0xffffff, 1.2);
+  dl.position.set(3, 5, 4);
+  ts.add(dl);
+  const fl = new THREE.DirectionalLight(0xaaccff, 0.4);
+  fl.position.set(-2, 2, -3);
+  ts.add(fl);
+
+  // Модель
+  const obj = assets.clone(modelKey);
+  if (!obj) { tw.dispose(); return null; }
+
+  ts.add(obj);
+
+  // Масштаб
+  const box = new THREE.Box3().setFromObject(obj);
+  const bsz = new THREE.Vector3();
+  box.getSize(bsz);
+  const bc = new THREE.Vector3();
+  box.getCenter(bc);
+  const maxDim = Math.max(bsz.x, bsz.y, bsz.z);
+  if (maxDim > 0.01) {
+    const s = 1.6 / maxDim;
+    obj.scale.set(s, s, s);
+  }
+  // Центрируем
+  box.setFromObject(obj);
+  box.getCenter(bc);
+  obj.position.sub(bc);
+
+  // Камера — изометрический вид
+  const tc = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  tc.position.set(2.2, 2.0, 2.2);
+  tc.lookAt(0, 0, 0);
+
+  tw.render(ts, tc);
+  const url = tw.domElement.toDataURL('image/png');
+  tw.dispose();
+  ts.remove(obj);
+  return url;
+}
+
+// Кэш миниатюр чтобы не рендерить одно и то же дважды
+const _thumbCache = {};
+
+function getThumb(modelKey) {
+  if (!_thumbCache[modelKey]) {
+    _thumbCache[modelKey] = renderModelThumb(modelKey) || '';
+  }
+  return _thumbCache[modelKey];
+}
+
 function buildBottomPanel() {
   const towersTab = document.getElementById('tab-towers');
   const animalsTab = document.getElementById('tab-animals');
@@ -2624,7 +2596,11 @@ function buildBottomPanel() {
     card.dataset.id = def.id;
     card.dataset.cost = def.cost;
     card.dataset.type = 'tower';
-    card.innerHTML = `<div class="item-icon-wrap"><img src="assets/icons/ic_target.png" style="width:32px;height:32px;filter:brightness(0) opacity(.6)"></div><div class="item-name">${def.name}</div><div class="item-cost">${def.cost}</div>`;
+    const thumb = getThumb(def.modelKey);
+    const imgHtml = thumb
+      ? `<img src="${thumb}" style="width:52px;height:52px;object-fit:contain;">`
+      : `<img src="assets/icons/ic_target.png" style="width:36px;height:36px;">`;
+    card.innerHTML = `<div class="item-icon-wrap" style="width:52px;height:52px;">${imgHtml}</div><div class="item-name">${def.name}</div><div class="item-cost">${def.cost}</div>`;
     card.addEventListener('click', () => selectTowerType(def));
     card.addEventListener('mouseenter', e => showTooltip(e, def.name, def.desc));
     card.addEventListener('mouseleave', hideTooltip);
@@ -2637,7 +2613,11 @@ function buildBottomPanel() {
     card.dataset.id = def.id;
     card.dataset.cost = def.cost;
     card.dataset.type = 'animal';
-    card.innerHTML = `<div class="item-icon-wrap"><img src="assets/icons/ic_like.png" style="width:32px;height:32px;filter:brightness(0) opacity(.6)"></div><div class="item-name">${def.name}</div><div class="item-cost">${def.cost}</div>`;
+    const thumb = getThumb(def.modelKey);
+    const imgHtml = thumb
+      ? `<img src="${thumb}" style="width:52px;height:52px;object-fit:contain;">`
+      : `<img src="assets/icons/ic_like.png" style="width:36px;height:36px;">`;
+    card.innerHTML = `<div class="item-icon-wrap" style="width:52px;height:52px;">${imgHtml}</div><div class="item-name">${def.name}</div><div class="item-cost">${def.cost}</div>`;
     card.addEventListener('click', () => selectTowerType(def));
     card.addEventListener('mouseenter', e => showTooltip(e, def.name, def.desc));
     card.addEventListener('mouseleave', hideTooltip);
